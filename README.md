@@ -16,25 +16,25 @@ The phrasebook is a simple text file containing named SQL queries;
 each query is preceded by a line 'tagging' the query name in `[]`; for
 example:
 
-  [select-users-by-id]
-  SELECT * FROM user WHERE user_id IN (:user-ids)
+    [select-users-by-id]
+    SELECT * FROM user WHERE user_id IN (:user-ids)
 
 (See `resources/phrasebook.test` for a fuller example.)
 
 This file is loaded using `clojure.java.io/resource` so may reside anywhere
 in your classpath. With this in hand:
 
-  (require '[uk.org.1729.sql-phrasebook.core :refer [sql-phrasebook]])
-  
-  (def pb (sql-phrasebook "phrasebook.txt"))
-  
-  (pb "select-users-by-id" {:user-ids [123 456 789})
+    (require '[uk.org.1729.sql-phrasebook.core :refer [sql-phrasebook]])
 
-  ;=> ["SEELCT * FROM user WHERE user_id IN (?,?,?)" 123 456 789]
+    (def pb (sql-phrasebook "phrasebook.txt"))
 
-  (require '[clojure.java.jdbc :as jdbc])
-  
-  (jdbc/query my-db (pb "select-users-by-id" {:user-ids 123 456 789}))
+    (pb "select-users-by-id" {:user-ids [123 456 789})
+
+    ;=> ["SEELCT * FROM user WHERE user_id IN (?,?,?)" 123 456 789]
+
+    (require '[clojure.java.jdbc :as jdbc])
+
+    (jdbc/query my-db (pb "select-users-by-id" {:user-ids 123 456 789}))
 
 ## Note
 
