@@ -30,7 +30,7 @@ in your classpath. With this in hand:
 
     (pb "select-users-by-id" {:user-ids [123 456 789})
 
-    ;=> ["SEELCT * FROM user WHERE user_id IN (?,?,?)" 123 456 789]
+    ;=> ["SELECT * FROM user WHERE user_id IN (?,?,?)" 123 456 789]
 
     (require '[clojure.java.jdbc :as jdbc])
 
