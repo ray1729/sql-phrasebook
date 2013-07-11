@@ -2,7 +2,7 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]))
 
-(def ^:private query-tag-rx #"^\[\s*([\w-]+)\s*\]\s*$")
+(def ^:private query-tag-rx #"^--\s*tag:\s+([\w-]+)\s*$")
 
 (defn- matches-query-tag?
   [line]
@@ -14,7 +14,8 @@
 
 (defn- parse-query-body
   [lines]
-  (str/join " " (remove empty? lines)))
+  (-> (str/join " " (remove empty? lines))
+      (str/replace #";\s*$" "")))
 
 (defn read-phrasebook
   [resource-name]

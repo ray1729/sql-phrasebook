@@ -12,21 +12,21 @@ Clojure source code and shared across applications.
 
 ## Usage
 
-The phrasebook is a simple text file containing named SQL queries;
-each query is preceded by a line 'tagging' the query name in `[]`; for
+The phrasebook is a simple SQL file containing named SQL queries;
+each query is preceded by an SQL comment line 'tagging' the query; for
 example:
 
-    [select-users-by-id]
+    -- tag: select-users-by-id
     SELECT * FROM user WHERE user_id IN (:user-ids)
 
-(See `resources/phrasebook.test` for a fuller example.)
+(See `resources/test/phrasebook.sql` for a fuller example.)
 
 This file is loaded using `clojure.java.io/resource` so may reside anywhere
 in your classpath. With this in hand:
 
     (require '[uk.org.1729.sql-phrasebook.core :refer [sql-phrasebook]])
 
-    (def pb (sql-phrasebook "phrasebook.txt"))
+    (def pb (sql-phrasebook "test/phrasebook.sql"))
 
     (pb "select-users-by-id" {:user-ids [123 456 789})
 
@@ -35,14 +35,6 @@ in your classpath. With this in hand:
     (require '[clojure.java.jdbc :as jdbc])
 
     (jdbc/query my-db (pb "select-users-by-id" {:user-ids 123 456 789}))
-
-## Note
-
-The parser treats any string of word characters in the query starting
-with a colon as a bind parameter name. This precludes such literal
-strings in the query. It would be fairly simple to add an escaping
-mechanism if such literals are required, but I haven't needed this
-yet.
 
 ## License
 
