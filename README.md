@@ -9,6 +9,9 @@ map, returning a vector suitable for passing straight to
 `clojure.java.jdbc/query`. The phrasebook can be managed outside of your
 Clojure source code and shared across applications.
 
+## Installation
+
+Available from [Clojars](https://clojars.org/uk.org.1729/sql-phrasebook).
 
 ## Usage
 
