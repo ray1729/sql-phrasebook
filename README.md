@@ -37,7 +37,7 @@ in your classpath. With this in hand:
 
     (require '[clojure.java.jdbc :as jdbc])
 
-    (jdbc/query my-db (pb "select-users-by-id" {:user-ids 123 456 789}))
+    (jdbc/query my-db (pb "select-users-by-id" {:user-ids [123 456 789]}))
 
 ## License
 
