@@ -39,6 +39,20 @@ in your classpath. With this in hand:
 
     (jdbc/query my-db (pb "select-users-by-id" {:user-ids [123 456 789]}))
 
+### ...for those with a sweet tooth
+
+    (require '[uk.org.1729.sql-phrasebook.sugar :refer [import-phrasebook]]
+             '[clojure.java.jdbc :as jdbc])
+
+    (def mysql-db {:subprotocol "mysql"
+                   :subname "//127.0.0.1:3306/clojure_test"
+                   :user "clojure_test"
+                   :password "clojure_test"})
+
+    (import-phrasebook "test/phrasebook.sql")
+
+    (select-books-by-author mysql-db {:last-name "Wyndham" :first-name "John"})
+    
 ## License
 
 Copyright © 2013 Ray Miller <ray@1729.org.uk>.
