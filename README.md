@@ -44,14 +44,18 @@ in your classpath. With this in hand:
     (require '[uk.org.1729.sql-phrasebook.sugar :refer [import-phrasebook]]
              '[clojure.java.jdbc :as jdbc])
 
-    (def mysql-db {:subprotocol "mysql"
-                   :subname "//127.0.0.1:3306/clojure_test"
-                   :user "clojure_test"
-                   :password "clojure_test"})
+    (def db {:subprotocol "mysql"
+             :subname "//127.0.0.1:3306/clojure_test"
+             :user "clojure_test"
+             :password "clojure_test"})
 
     (import-phrasebook "test/phrasebook.sql")
 
-    (select-books-by-author mysql-db {:last-name "Wyndham" :first-name "John"})
+    (select-book-titles-by-author db {:last-name "Wyndham"})
+    ;=> [{:title "The Day of the Triffids"} {:title "The Kraken Wakes"}]
+
+    (select-authors-by-book-titles db {:titles ["The Day of the Triffids" "The Kraken Wakes"]})
+    ; => [{:author_id 2 :lastname "Wyndham" :forenames "John"}]
     
 ## License
 
