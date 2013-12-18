@@ -2,19 +2,18 @@
 SELECT book_id
 FROM book;
 
--- tag: select-books-by-author
-SELECT book.*
+-- tag: select-book-titles-by-author
+SELECT book.title
 FROM book
-JOIN book_author USING(book_id)
-JOIN author USING(author_id)
-WHERE author.last_name = ${last-name}
-AND author.first_name = ${first-name};
+JOIN book_author ON book.book_id = book_author.book_id
+JOIN author ON author.author_id = book_author.author_id
+WHERE author.lastname = ${last-name};
 
 -- tag: select-authors-by-book-titles
 SELECT author.*
 FROM author
-JOIN book_author USING(author_id)
-JOIN book USING(book_id)
+JOIN book_author ON book_author.author_id = author.author_id
+JOIN book ON book.book_id = book_author.book_id
 WHERE book.title IN (${titles})
 
 -- tag: select-books-by-publication-years

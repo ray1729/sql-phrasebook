@@ -13,15 +13,14 @@
                (pb "select-all-book-ids")
                => ["SELECT book_id FROM book"])
 
-         (fact "select-books-by-author returns the expected vector"
-               (pb "select-books-by-author" {:first-name "John" :last-name "Christopher"})
-               => ["SELECT book.* FROM book JOIN book_author USING(book_id) JOIN author USING(author_id) WHERE author.last_name = ? AND author.first_name = ?"
-                   "Christopher"
-                   "John"])
+         (fact "select-book-titless-by-author returns the expected vector"
+               (pb "select-book-titles-by-author" {:last-name "Christopher"})
+               => ["SELECT book.title FROM book JOIN book_author ON book.book_id = book_author.book_id JOIN author ON author.author_id = book_author.author_id WHERE author.lastname = ?"
+                   "Christopher"])
 
          (fact "select-authors-by-book-titles returns the expected vector"
                (pb "select-authors-by-book-titles" {:titles ["The Death of Grass" "The White Mountains"]})
-               => ["SELECT author.* FROM author JOIN book_author USING(author_id) JOIN book USING(book_id) WHERE book.title IN (?,?)"
+               => ["SELECT author.* FROM author JOIN book_author ON book_author.author_id = author.author_id JOIN book ON book.book_id = book_author.book_id WHERE book.title IN (?,?)"
                    "The Death of Grass"
                    "The White Mountains"])
 
