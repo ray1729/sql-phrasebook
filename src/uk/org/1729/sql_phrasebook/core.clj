@@ -20,6 +20,12 @@
       (str/replace #"\s+$" "")
       (str/replace #"\s+" " ")))
 
+(defn get-param
+  [params param-name]
+  (let [param-key (keyword param-name)]
+    (assert (contains? params param-key) (format "Query parameter %s missing" param-name))
+    (ensure-collection (get params (keyword param-name)))))
+
 (defn query-and-bind-params
   "Given a parameterized query string and map of parameters, return a
    vector containing the query string (with placeholders in place of
@@ -30,7 +36,7 @@
   (loop [query query bind-params [] param-names (bind-param-names query)]
     (if (seq param-names)
       (let [param-name  (first param-names)
-            param-value (ensure-collection (get params (keyword param-name)))
+            param-value (get-param params param-name)
             replacement (str/join "," (repeat (count param-value) "?"))
             query       (str/replace-first query (str "${" param-name "}") replacement)]
         (recur query (into bind-params param-value) (rest param-names)))

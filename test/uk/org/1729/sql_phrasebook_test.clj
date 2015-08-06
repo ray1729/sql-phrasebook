@@ -27,4 +27,8 @@
          (fact "select-books-by-publication-years returns the expected vector"
                (pb "select-books-by-publication-years" {:publication-years [1958 1959 1967]})
                => ["SELECT book.* FROM book WHERE pub_year IN (?,?,?)"
-                   1958 1959 1967])))
+                   1958 1959 1967])
+
+         (fact "missing parameter throws exception"
+               (pb "select-book-titles-by-author" {})
+               => (throws java.lang.AssertionError #"Assert failed: Query parameter last-name missing"))))
