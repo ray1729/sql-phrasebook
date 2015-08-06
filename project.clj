@@ -1,4 +1,4 @@
-(defproject uk.org.1729/sql-phrasebook "0.2.0"
+(defproject uk.org.1729/sql-phrasebook "0.3.0-SNAPSHOT"
   :description "An SQL phrasebook allowing you to collect queries in a shared dictionary rather than scattering them throughout your code"
   :url "https://github.com/ray1729/sql-phrasebook"
   :license {:name "Eclipse Public License"
