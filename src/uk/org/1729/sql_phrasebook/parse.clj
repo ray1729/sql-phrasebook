@@ -4,6 +4,8 @@
 
 (def ^:private query-tag-rx #"^--\s*tag:\s+([\w-]+)\s*$")
 
+(def ^:private up-to-comment-rx #"^([^']*?('[^']*'[^']*)*?)\s*--.*")
+
 (defn- matches-query-tag?
   [line]
   (boolean (re-matches query-tag-rx line)))
@@ -12,9 +14,13 @@
   [line]
   (second (re-matches query-tag-rx line)))
 
+(defn- up-to-comment
+  [line]
+  (or (second (re-matches up-to-comment-rx line)) line))
+
 (defn- parse-query-body
   [lines]
-  (-> (str/join " " (remove empty? lines))
+  (-> (str/join " " (remove empty? (map up-to-comment lines)))
       (str/replace #";\s*$" "")))
 
 (defn read-phrasebook
