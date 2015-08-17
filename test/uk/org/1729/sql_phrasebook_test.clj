@@ -11,7 +11,7 @@
 
          (fact "select-all-book-ids returns the expected vector"
                (pb "select-all-book-ids")
-               => ["SELECT book_id FROM book"])
+               => ["SELECT book_id FROM book WHERE NOT book_author = '--'"])
 
          (fact "select-book-titless-by-author returns the expected vector"
                (pb "select-book-titles-by-author" {:last-name "Christopher"})
