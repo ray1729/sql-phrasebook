@@ -4,7 +4,7 @@
 
 (def ^:private query-tag-rx #"^--\s*tag:\s+([\w-]+)\s*$")
 
-(def ^:private up-to-comment-rx #"^([^']*?('[^']*'[^']*)*?)\s*--.*")
+(def ^:private strip-comment-rx #"^((?:[^']|'[^']*')*?)\s*--.*$")
 
 (defn- matches-query-tag?
   [line]
@@ -14,19 +14,19 @@
   [line]
   (second (re-matches query-tag-rx line)))
 
-(defn- up-to-comment
+(defn- strip-comment
   [line]
-  (or (second (re-matches up-to-comment-rx line)) line))
+  (str/replace line strip-comment-rx "$1"))
 
 (defn- parse-query-body
   [lines]
-  (-> (str/join " " (remove empty? (map up-to-comment lines)))
+  (-> (str/join " " (remove empty? (map strip-comment lines)))
       (str/replace #";\s*$" "")))
 
 (defn read-phrasebook
   [resource-name]
   (with-open [rdr (io/reader (io/resource resource-name))]
     (into {}
-          (for [[[tag] body] 
+          (for [[[tag] body]
                 (partition 2 (partition-by matches-query-tag? (line-seq rdr)))]
             [(parse-query-tag tag) (parse-query-body body)]))))
